@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影推荐</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <link rel="shortcut  icon" href="../static/img/icon.jpg" type="image/x-icon"/>
+    <style>
+        .navbar {
+            border-radius: 0;
+        }
+
+        .container img {
+            box-shadow: 10px 10px 8px rgba(0, 0, 0, .5);
+            /*考虑浏览器兼容性*/
+            -moz-box-shadow: 10px 10px 8px rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 10px 10px 8px rgba(0, 0, 0, .5);
+        }
+
+
+    </style>
+</head>
+<body>
+{#导航栏#}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> <b>电影网站 </b>
+                &nbsp;&nbsp;</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">最新好评电影 <span class="sr-only">(current)</span></a></li>
+                <li><a href="/tag_list/">标签电影推荐</a></li>
+                <li><a href="/like_list/">相似电影推荐</a></li>
+                <li><a href="/movie_show/"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                    电影数据可视化</a></li>
+
+            </ul>
+            {#        搜索框#}
+            <form method="get" class="navbar-form navbar-left" action="/search_movie/">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="搜一下电影名称" value="{{ search_data }}">
+                    <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                        </span>
+                </div><!-- /input-group -->
+            </form>
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        {{ request.session.info }}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/edit_me/">修改资料</a></li>
+                        <li><a href="/collect_list/">我的收藏</a></li>
+                        <li><a href="/rate_list/">我的评分</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout/">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    {% for obj in dis_tag %}
+        <div style="margin-bottom: 12px;float: left;margin-right: 5px">
+            <a class="btn btn-primary" href="/index/?tag={{ obj.tag }}">{{ obj.tag }}</a>
+        </div>
+    {% endfor %}
+</div>
+<div class="container">
+
+    <table>
+        <tr>
+            <td style="width: 40%">
+                <!-- 好评 -->
+                <div>
+
+                    <table class="table table-bordered" style=" border:0   ">
+                        <thead>
+                        <tr style=" border:0   ">
+                            <th colspan="2" style=" border:0  ;  ">
+
+                                <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> &nbsp;好评榜 Top<font
+                                        color="red" style="font-style:italic;">10</font></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in rate_list %}
+                            <tr>
+                                <td style="width: 20%;border:0 ">
+                                    <a target="_blank" href="/movie_detail/?mid={{ obj.dataid }}">
+                                        <img src="{{ obj.pic }}" width="100px" height="100px"
+                                             referrerpolicy="no-referrer" alt=""/>
+                                    </a>
+                                </td>
+                                <td style="border:0 "><h4><b>{{ obj.name }}</b></h4><b>类型：</b>{{ obj.tag }}<br>
+                                    <br>
+                                    <span class="glyphicon glyphicon-thumbs-up"
+                                          aria-hidden="true"></span> {{ obj.rate }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+            <td style="width: 40%">
+
+                <!-- 最新 -->
+                <div>
+                    <table class="table table-bordered" style=" border:0   ">
+                        <thead>
+                        <tr>
+                            <th colspan="2" style=" border:0 ;"><h4>
+                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;
+                                最新榜 Top<font color="red" style="font-style:italic;">10</font></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in date_list %}
+                            <tr style=" border:0   ">
+                                <td style="width: 20%; border:0">
+                                    <a target="_blank" href="/movie_detail/?mid={{ obj.dataid }}">
+                                        <img src="{{ obj.pic }}" width="100px" height="100px"
+                                             referrerpolicy="no-referrer" alt=""/>
+                                    </a>
+                                </td>
+                                <td style=" border:0   "><h4><b>{{ obj.name }}</b></h4><b>类型：</b>{{ obj.tag }}<br>
+                                    <br>
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> {{ obj.date }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+
+{#固定图片#}
+<div style=" position: fixed;float:left;margin-left:75%;margin-top:-70%">
+    <img src="../static/img/fd2.jpg" style="width: 350px;height: 350px">
+</div>
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+
+
+</body>
+</html>
+
+
+

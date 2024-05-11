@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影详情</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <link rel="shortcut  icon" href="../static/img/icon.jpg" type="image/x-icon" />
+    <style>
+        .navbar{
+            border-radius: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> <b>电影网站 </b> &nbsp;&nbsp;</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a href="/index/">最新好评电影 </a></li>
+                <li><a href="/tag_list/">标签电影推荐</a></li>
+                <li><a href="/like_list/">相似电影推荐</a></li>
+                <li><a href="/movie_show/"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>  电影数据可视化</a></li>
+
+            </ul>
+            {#        搜索框#}
+            <form method="get" class="navbar-form navbar-left" action="/search_movie/">
+                <div class="input-group">
+
+                    <input type="text" name="q" class="form-control" placeholder="搜一下电影名称" value="{{ search_data }}">
+                    <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                        </span>
+                </div><!-- /input-group -->
+            </form>
+
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {{request.session.info}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/edit_me/">修改资料</a></li>
+                        <li><a href="/collect_list/">我的收藏</a></li>
+                        <li><a href="/rate_list/">我的评分</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout/">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{#固定图片#}
+<div style=" position: fixed;float:left;margin-left:85%;margin-top:300px">
+    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.vZtQNockJ467an-YJ4AkyQHaLG?w=124&h=186&c=7&r=0&o=5&dpr=1.38&pid=1.7" style="width: 200px;height: 300px">
+</div>
+
+<div class="panel panel-default" style="margin-left: 10%;margin-right: 20%">
+    <table class="table table-bordered" >
+        <thead>
+        <tr>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in detail %}
+            <tr>
+                <td style="width: 20%">
+                    <img src="{{ obj.pic }}"
+                         style=" box-shadow: 10px 10px 8px rgba(0,0,0,.5);
+                 /*考虑浏览器兼容性*/
+                 -moz-box-shadow: 10px 10px 8px rgba(0,0,0,.5);
+                 -webkit-box-shadow: 10px 10px 8px rgba(0,0,0,.5);"
+                         width="400px" height="450px" referrerpolicy="no-referrer" alt="" />
+                    </a>
+                </td>
+                <td style=""><h2><b>{{ obj.name }}</b></h2><br>
+                    <b>电影id：</b> {{ obj.dataid }}<br>
+                    <b> 上映日期：</b> {{ obj.date }}<br>
+                    <b> 豆瓣评分：</b>{{ obj.rate }}<br>
+                    <b>  导演：</b>{{ obj.directors }} &nbsp;&nbsp;&nbsp;<b>  编剧：</b>{{ obj.writer }}&nbsp;&nbsp;&nbsp;&nbsp <b>  演员：</b>{{ obj.actors }}<br>
+
+                    <b>电影标签：</b>{{ tag }}<br>
+                    <b>  上映地区：</b>{{ obj.country }}<br>
+                    <b>  电影时长：</b>{{ obj.duration }}分钟<br><br>
+                    <div style="
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10; /* 这里设置超出几行省略 */
+    overflow: hidden;">
+                        <b> 电影描述：</b><h5>{{ obj.introduction }}</h5>
+                    </div>
+                    <h5 ><a href="https://v.qq.com/x/search/?q={{ obj.name }}"><b>腾讯视频</b></a>&nbsp;|
+                        <a href="https://so.iqiyi.com/so/q_{{ obj.name }}"><b>爱奇艺</b></a>&nbsp;|
+                        <a href="https://so.youku.com/search_video/q_{{ obj.name }}"><b>优酷</b></a>&nbsp;|
+                        <a href="https://www.miguvideo.com/mgs/website/prd/search.html?keywords={{ obj.name }}"><b>咪咕视频</b></a> &nbsp;|
+                        <a href="https://www.ixigua.com/search/{{ obj.name }}"><b>西瓜视频</b></a>
+                    </h5>
+
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+{# 显示收藏，评分#}
+<div class="panel panel-default" style="margin-left: 10%;width: 40%;float: left">
+    {% for obj in detail %}
+        <form method="get" class="navbar-form navbar-left" action="/movie_detail/{{ obj.dataid }}/fav_add/">
+    {% endfor %}
+    <h3>评分：
+        {% for ok in rating %}
+            <input type="number" name="rate" required="required"
+                   onblur="num=this.value;if(num<0 || num>10 || num.length <=0 ){
+                           alert('请填入0到10分！');this.value='';}"
+                   value="{{ ok.rating}}"> {% endfor %}
+        <button class="btn btn-default" type="submit" >
+            提交
+        </button>
+    </h3><br>
+    </form>
+</div>
+
+<div class="panel panel-default" style="margin-left: 10%;width: 20%;float: left">
+    {% for obj in detail %}
+        <form method="get" class="navbar-form navbar-left" action="/movie_detail/{{ obj.dataid }}/fav_add2/{{ stat }}">
+    {% endfor %}
+
+    <h3>收藏：{{ pic }}
+        <button class="btn btn-default" type="submit"  >
+            {{ stat}}
+        </button>
+    </h3><br>
+    </form>
+</div>
+
+
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+
+
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的评分</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <link rel="shortcut  icon" href="../static/img/icon.jpg" type="image/x-icon" />
+    <style>
+        .navbar{
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> <b>电影网站 </b> &nbsp;&nbsp;</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a href="/index/">最新好评电影 </a></li>
+                <li><a href="/tag_list/">标签电影推荐</a></li>
+                <li><a href="/like_list/">相似电影推荐</a></li>
+                <li><a href="/movie_show/"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>  电影数据可视化</a></li>
+
+            </ul>
+            {#        搜索框#}
+            <form method="get" class="navbar-form navbar-left" action="/search_movie/">
+                <div class="input-group">
+
+                    <input type="text" name="q" class="form-control" placeholder="搜一下电影名称" value="{{ search_data }}">
+                    <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                        </span>
+                </div><!-- /input-group -->
+            </form>
+
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {{request.session.info}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/edit_me/">修改资料</a></li>
+                        <li><a href="/collect_list/">我的收藏</a></li>
+                        <li><a href="/rate_list/">我的评分</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout/">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{#固定图片#}
+<div style=" position: fixed;float:left;margin-left:83%;margin-top:300px">
+    <img src="../static/img/fd.jpg" style="width: 250px;height: 300px">
+</div>
+
+<h1 align="center">您的评分电影列表</h1>>
+
+<div class="panel panel-default" style="margin-left: 10%;margin-right: 20%">
+    <table class="table table-bordered" >
+        <thead>
+        <tr>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in queryset %}
+            <tr>
+                {#         <td style="background:url('{{ obj.pic}}');"></td>#}
+                <td style="width: 20%">
+                    <a target="_blank" href="/movie_detail/?mid={{ obj.dataid }}">
+                        <img src="{{ obj.pic }}"
+                             style=" box-shadow: 10px 10px 8px rgba(0,0,0,.5);
+                 /*考虑浏览器兼容性*/
+                 -moz-box-shadow: 10px 10px 8px rgba(0,0,0,.5);
+                 -webkit-box-shadow: 10px 10px 8px rgba(0,0,0,.5);
+
+"
+                             width="200px" height="250px"
+
+                             referrerpolicy="no-referrer" alt="" />
+                    </a>
+                </td>
+                <td > <h2><b>{{ obj.name }}</b></h2><br>
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <b>：</b> {{ obj.date }}<br>
+                    <b>片长：</b>  {{ obj.duration }} 分钟&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>类型：</b>  {{ obj.style1 }}
+                    <br><br><br>
+                    <div style="width: 800px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* 这里设置超出几行省略 */
+    overflow: hidden;">
+                        {{ obj.introduction }}
+
+                    </div> </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<nav aria-label="..." style="text-align: center;">
+    <ul class="pagination">
+        {{ page_string }}
+    </ul>
+</nav>
+
+
+
+
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+
+
+
+</body>
+</html>
+
+
+

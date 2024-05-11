@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加电影</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <link rel="shortcut  icon" href="../static/img/icon.jpg" type="image/x-icon" />
+    <style>
+        .navbar{
+            border-radius: 0;
+        }
+        {#*{#}
+        {#    box-shadow: 0 0 5px #CCC;#}
+        {#}#}
+    </style>
+
+
+
+
+
+
+</head>
+<body>
+{#表头#}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>  <b>电影网站后台管理系统</b> &nbsp;&nbsp;</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a href="/manager/index">用户管理 </a></li>
+                <li class="active"><a href="/manager/index_movie">电影管理<span class="sr-only">(current)</span></a></li>
+                <li><a href="/manager/index_admin">管理员管理</a></li>
+                <li><a href="/manager/user_show"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>  用户数据可视化</a></li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/manager/logout">注销</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {{request.session.admin}}
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="container">
+
+    {#面版#}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加电影</h3>
+        </div>
+        <div class="panel-body">
+
+            {#      表单#}
+            <form class="form-horizontal" method="post" >
+                {%  csrf_token %}
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">电影名称</label>
+                    <div class="col-sm-10" >
+                        <input type="text" required="required"   class="form-control" style="width: 700px" placeholder="moviename" name="moviename">
+
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label" >电影导演</label>
+                    <div class="col-sm-10" >
+                        <input type="text" required="required"  class="form-control" style="width: 700px" placeholder="directors" name="directors">
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">电影编剧</label>
+                    <div class="col-sm-10" >
+                        <input type="text" required="required"  class="form-control" style="width: 700px" placeholder="writer" name="writer">
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">电影演员</label>
+                    <div class="col-sm-10"  >
+                        <input type="text" required="required"  class="form-control" style="width: 700px" placeholder="actors" name="actors">
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">电影评分</label>
+                    <div class="col-sm-10" >
+                        <input type="text"  class="form-control" style="width: 700px" placeholder="rate" name="rate">
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">电影ID</label>
+                    <div class="col-sm-10" >
+                        <input type="text" required="required"  class="form-control" style="width: 700px" placeholder="dataID" name="dataID">
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label" >电影上映日期</label>
+                    <div class="col-sm-10" >
+                        <input type="text"  required="required"  class="form-control" style="width: 700px" placeholder="date" name="date">
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">电影类别1</label>
+                    <div class="col-sm-10" >
+                        <input type="text" required="required"  class="form-control" style="width: 700px"  placeholder="style1" name="style1">
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">电影类别2</label>
+                    <div class="col-sm-10" >
+                        <input type="text" class="form-control" style="width: 700px"   placeholder="style2" name="style2">
+                    </div>
+                </div>
+
+                <div class="form-group"  >
+                    <label  class="col-sm-2 control-label">电影类别3</label>
+                    <div class="col-sm-10"  >
+                        <input type="text" class="form-control"  style="width: 700px" placeholder="style3" name="style3">
+                    </div>
+                </div>
+
+                <div class="form-group"  >
+                    <label  class="col-sm-2 control-label" >电影描述</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="width: 700px" placeholder="introduction" name="introduction">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">电影海报</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"  style="width: 700px" placeholder="pic" name="pic">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">电影英文名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="width: 700px" placeholder="english_name" name="english_name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">豆瓣网址</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"  style="width: 700px" placeholder="url" name="url">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">语言</label>
+                    <div class="col-sm-10">
+                        <input type="text"  class="form-control" style="width: 700px" placeholder="language" name="language">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">上映地区</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="width: 700px" placeholder="country" name="country">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">电影时长</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="width: 700px" placeholder="duration" name="duration">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+
+
+
+</body>
+</html>
